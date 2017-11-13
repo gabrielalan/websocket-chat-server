@@ -1,14 +1,27 @@
 {
   "name": "websocket-chat-server",
-  "version": "0.1.0",
-  "private": true,
-  "author": "Gabriel Alan Pereira",
-  "license": "MIT",
+  "version": "0.0.1",
+  "description": "Websocket chat server",
+  "main": "index.js",
   "dependencies": {
     "express": "^4.16.2",
     "socket.io": "^2.0.4"
   },
   "scripts": {
     "start": "node index.js ../build",
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielalan/websocket-chat-server.git"
+  },
+  "keywords": [
+    "websocket",
+    "chat"
+  ],
+  "author": "Gabriel Alan Pereira",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gabrielalan/websocket-chat-server/issues"
+  },
+  "homepage": "https://github.com/gabrielalan/websocket-chat-server#readme"
 }
