@@ -1,0 +1,14 @@
+{
+  "name": "websocket-chat-server",
+  "version": "0.1.0",
+  "private": true,
+  "author": "Gabriel Alan Pereira",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.2",
+    "socket.io": "^2.0.4"
+  },
+  "scripts": {
+    "start": "node index.js ../build",
+  }
+}
