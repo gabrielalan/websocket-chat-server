@@ -4,6 +4,13 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
+const {
+	NEW_MESSAGE,
+	NEW_USER,
+	USER_LEFT,
+	ACTIVE_ROOM
+} = require('./constants');
+
 const port = 3001;
 
 server.listen(port, () => console.log(`Listening on *:${port}`));
@@ -16,16 +23,14 @@ let active = 0;
 
 const rooms = ['General', 'Room #1'];
 
-const NEW_MESSAGE = 'new.message';
-
 // Chat
 io.on('connection', socket => {
 	const commands = {
 		'/enter': (...args) => {
 			const room = args.join(' ');
 			rooms.push(room);
-			socket.emit('active.room', { active: room, rooms });
-			socket.broadcast.emit('active.room', { rooms });
+			socket.emit(ACTIVE_ROOM, { active: room, rooms });
+			socket.broadcast.emit(ACTIVE_ROOM, { rooms });
 			console.log(`Entering room ${room} - ${JSON.stringify(rooms)}`);
 		}
 	};
@@ -71,16 +76,16 @@ io.on('connection', socket => {
 	/**
 	 * Listener for disconnection/left
 	 */
-	socket.on('user.left', data => {
+	socket.on(USER_LEFT, data => {
 		if (!data || !data.username) {
 			return;
 		}
 
-		console.log(`user.left: ${JSON.stringify(data)}`);
+		console.log(`${USER_LEFT}: ${JSON.stringify(data)}`);
 
 		active--;
 
-		socket.broadcast.emit('user.left', {
+		socket.broadcast.emit(USER_LEFT, {
 			username: data.username,
 			active
 		});
@@ -91,14 +96,14 @@ io.on('connection', socket => {
 	/**
 	 * Listener for new users
 	 */
-	socket.on('new.user', username => {
+	socket.on(NEW_USER, username => {
 		active++;
 
-		socket.emit('new.user', { active, rooms });
-		socket.broadcast.emit('new.user', { active, rooms });
+		socket.emit(NEW_USER, { active, rooms });
+		socket.broadcast.emit(NEW_USER, { active, rooms });
 
 		systemMessage(`New user entered the chat: ${username}`);
 
-		console.log(`new.user: ${username} - ${active}`);
+		console.log(`${NEW_USER}: ${username} - ${active}`);
 	});
 });
