@@ -11,12 +11,14 @@ const {
 	ACTIVE_ROOM
 } = require('./constants');
 
+const publicFolder = process.argv[2];
+
 const port = 3001;
 
 server.listen(port, () => console.log(`Listening on *:${port}`));
 
 // Routing
-app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(process.cwd(), publicFolder)));
 
 // Active users
 let active = 0;
